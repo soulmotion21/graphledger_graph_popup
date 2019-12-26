@@ -1,0 +1,25 @@
+{
+  "name": "graphledger_graph_popup",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "webpack-dev-server"
+  },
+  "devDependencies": {
+    "webpack": "^4.41.4",
+    "webpack-cli": "^3.3.10",
+    "webpack-dev-server": "^3.10.1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/soulmotion21/graphledger_graph_popup.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/soulmotion21/graphledger_graph_popup/issues"
+  },
+  "homepage": "https://github.com/soulmotion21/graphledger_graph_popup#readme"
+}

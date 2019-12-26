@@ -1,0 +1,55 @@
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Document</title>
+  <link rel="stylesheet" href="../resources/css/style.css">
+</head>
+<body>
+<div class="wrap_contents">
+  <div class="section_contents">
+    <div class="area_contents area_user_graph">
+      <div class="box_legend">
+        <ul>
+          <li>has_order</li>
+          <li>has_product</li>
+          <li>supplies</li>
+        </ul>
+      </div>
+
+      <div class="box_zoom">
+        <span></span>
+        <p>Wheel to zoom</p>
+      </div>
+
+      <div class="box_graph _userGraph"></div>
+    </div>
+
+  </div>
+</div>
+
+<script src="../resources/js/d3.min.js"></script>
+<script src="../resources/js/ui.graph.js"></script>
+
+<script>
+
+const renderGraph = function () {
+  const oGraphledger = new dmUi.view.graph();
+  const url = '../resources/json/graphdata_user_order_dummy.json';
+  oGraphledger.drawGraph(url);
+  return oGraphledger;
+};
+
+if (document.readyState === "loading") {
+  // console.log('loading');
+  document.addEventListener("DOMContentLoaded", renderGraph);
+} else {
+  renderGraph();
+}
+
+
+</script>
+</body>
+</html>

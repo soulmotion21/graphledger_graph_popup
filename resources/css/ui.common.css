@@ -1,0 +1,307 @@
+@charset "UTF-8";
+
+/**
+ * common css
+ */
+
+* {
+  color: #4e555b;
+}
+
+html {
+  font-size: 10px;
+  height: 100%;
+}
+
+body {
+  font-family: dotum, "돋움", Arial, gulim, "굴림", Helvetica, sans-serif;
+  font-size: 1.4rem;
+  height: 100%;
+}
+
+ul {
+  margin: 0;
+  padding: 0;
+}
+
+li {
+  list-style: none;
+}
+
+p {
+  margin-bottom: 0;
+  padding: 0;
+  -webkit-margin-before: 0;
+  -webkit-margin-after: 0;
+}
+
+img {
+  max-width: 100%;
+}
+
+a:link {
+  text-decoration: none;
+}
+
+h1, h2, h3, h4, h5 {
+  font-family: dotum, "돋움", Arial, gulim, "굴림", Helvetica, sans-serif;
+}
+
+h5 {
+  font-size: 1.6rem;
+}
+
+.align_center {
+  text-align: center;
+}
+
+.align_left {
+  text-align: left;
+}
+
+.align_right {
+  text-align: right;
+}
+
+.row {
+  margin-left: 0;
+  margin-right: 0;
+}
+
+.wrap_contents {
+  position: relative;
+  width: 1000px;
+  height: 753px;
+  border:red 1px solid;
+  padding: 30px 0 0 0;
+}
+
+.wrap_contents .section_contents {
+
+}
+.area_contents {
+  background: #fff;
+  /*padding: 20px;*/
+  /*min-height: 307px;*/
+}
+.area_contents.area_user_graph .box_legend {
+  position: absolute;
+  top:10px;
+  left:20px;
+  width: 150px;
+  height: 100px;
+}
+.area_contents.area_user_graph .box_legend ul li {
+  position: relative;
+  padding-left: 55px;
+  font-size: 1.6rem;
+}
+.area_contents.area_user_graph .box_legend ul li:before {
+  content: '';
+  display: block;
+  position: absolute;
+  top:10px;
+  left:0;
+  width: 38px;
+  height: 4px;
+}
+.area_contents.area_user_graph .box_legend ul li:nth-child(1):before {
+  background:rgb(79, 195, 247);
+}
+.area_contents.area_user_graph .box_legend ul li:nth-child(2):before {
+  background:rgba(134,134,255,1);
+}
+.area_contents.area_user_graph .box_legend ul li:nth-child(3):before {
+  content: '-------';
+  color:rgba(134,134,255,1);
+  top:0
+}
+
+.box_graph svg {
+  width: 100%;
+  height: auto;
+}
+
+.box_zoom {
+  position: absolute;
+  top:270px;
+  left: 33px;
+  text-align: center;
+  font-size: 1rem;
+  opacity: 0.4;
+  background: #fff;
+}
+.box_zoom span {
+  display: inline-block;
+  width: 36px;
+  height: 63px;
+  background: url("../../resources/img/sprite_common.png") -125px -50px no-repeat;
+  background-size: 250px;
+}
+
+/* popup */
+.popup_dim {
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.55);
+  z-index: 200;
+  overflow-y: auto;
+  text-align: center;
+}
+
+.popup_dim.popup_dim_transparent {
+  background: transparent;
+}
+
+.popup_dim:after {
+  content: '';
+  display: inline-block;
+  width: 0;
+  height: 100%;
+  vertical-align: middle;
+}
+
+.popup {
+  display: inline-block;
+  min-width: 300px;
+  background: #fff;
+  padding: 15px;
+  vertical-align: middle;
+  text-align: left;
+}
+
+/* grid */
+.col-1, .col-2, .col-3, .col-4, .col-5, .col-6, .col-7, .col-8, .col-9, .col-10, .col-11, .col-12, .col, .col-auto, .col-sm-1, .col-sm-2, .col-sm-3, .col-sm-4, .col-sm-5, .col-sm-6, .col-sm-7, .col-sm-8, .col-sm-9, .col-sm-10, .col-sm-11, .col-sm-12, .col-sm, .col-sm-auto, .col-md-1, .col-md-2, .col-md-3, .col-md-4, .col-md-5, .col-md-6, .col-md-7, .col-md-8, .col-md-9, .col-md-10, .col-md-11, .col-md-12, .col-md, .col-md-auto, .col-lg-1, .col-lg-2, .col-lg-3, .col-lg-4, .col-lg-5, .col-lg-6, .col-lg-7, .col-lg-8, .col-lg-9, .col-lg-10, .col-lg-11, .col-lg-12, .col-lg, .col-lg-auto, .col-xl-1, .col-xl-2, .col-xl-3, .col-xl-4, .col-xl-5, .col-xl-6, .col-xl-7, .col-xl-8, .col-xl-9, .col-xl-10, .col-xl-11, .col-xl-12, .col-xl, .col-xl-auto {
+  padding-left: 10px;
+  padding-right: 10px;
+  margin-bottom: 20px;
+}
+
+/**
+ * Graph
+ */
+.node {
+  /*stroke: #fff;*/
+  /*stroke-width: 1.5px;*/
+}
+
+.link {
+  stroke: rgba(106,106,106,0.5);
+  stroke-width: 0.7px;
+}
+.area_user_graph .link {
+  stroke-width: 0.5px;
+}
+.bbox {
+  stroke-width: 1px;
+  /*fill: transparent;*/
+  /*fill: rgba(135,206,235,0.5);*/
+  fill: rgba(0,0,0,0.7);
+  transition: 0.3s;
+}
+.node-label {
+  font-size: 0.5rem;
+  text-anchor: middle;
+  fill:#fff
+}
+.node-label.node-me {
+  font-size: 1rem;
+}
+.node-label01 {
+  font-size: 0.5rem;
+  text-anchor: middle;
+  fill:#000
+}
+.node-group.node-me i {
+  font-size: 2rem;
+}
+.bbox1 {
+  stroke-width: 0.5px;
+  /*stroke: rgba(255,255,255,0.8);*/
+  stroke: rgba(162,162,162,0.5);
+  fill: rgba(255,255,255,0.85);
+}
+.bbox_angle {
+  stroke-width: 0.5px;
+  stroke: rgba(162,162,162,0.5);
+  fill: rgba(255,255,255,1);
+}
+.bbox1.me {
+  stroke: rgba(94,168,194,0.8);
+  fill: rgba(101,177,194,0.15);
+}
+
+.bbox1.active {
+  fill:rgba(255,255,241,1);
+  stroke: rgba(0,0,0,1);
+}
+.link-text-row {
+  /*fill: rgba(0,0,0,0.95);*/
+}
+
+.node-group {
+  cursor: pointer;
+}
+.status_node {
+  stroke-width: 0.7px;
+}
+.status_node.active {
+  stroke-width: 4px;
+  stroke: rgba(114,220,255,0.5);
+}
+
+line {
+  stroke: #ccc;
+  stroke-opacity: 0.6;
+}
+.links line {
+  stroke: #ccc;
+  stroke-opacity: 0.6;
+}
+.peer_links line {
+  stroke: #ccc;
+  stroke-opacity: 0.6;
+}
+
+.nodes circle {
+  /*stroke: #fff;*/
+  /*stroke-width: 1px;*/
+}
+.peer_nodes circle {
+  stroke: #000;
+  stroke-width: 1px;
+}
+.svg_txt text {
+  fill:#000;
+}
+foreignObject {
+  width: 180px;
+  height: 25px;
+  transform:  scale(0.3) translate(-85px, 0);
+  transform-origin: top left;
+  text-align: center;
+}
+foreignObject p {
+}
+foreignObject i {
+  font-size: 1.1rem;
+  color: #fff;
+}
+foreignObject i.fa-user-alt {
+  /*transform: translate(-2.5px, -11.5px) scale(0.4);*/
+  transform:  scale(0.7);
+  transform-origin: top center;
+}
+foreignObject i.fa-user-alt.me {
+  font-size: 1.6rem;
+  transform: translate(2px, 0);
+  transform-origin: inherit;
+}
+foreignObject i.fa-file-alt {
+  /*transform: translate(-2px, -12px) scale(0.5);*/
+  transform:  scale(0.9);
+  transform-origin: top center;
+}

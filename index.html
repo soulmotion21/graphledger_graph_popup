@@ -1,0 +1,92 @@
+
+<html>
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport"
+        content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Wiki PageList</title>
+  <link rel="stylesheet" href="./resources/css/style.css">
+  <style>
+    .wrapper {
+      padding: 80px 0 0 0;
+    }
+    .logo {
+      position: absolute;
+      top:23px;
+      left:40px;
+      width: 150px;
+      height: 25px;
+      background: url("./resources/img/graphledger-logo.png") 0 0 no-repeat;
+      background-size: 150px;
+    }
+    .wrap_contents{
+      padding: 50px;
+    }
+    table {
+      width: 100%;
+    }
+    table td,
+    table th {
+      text-align: center;
+    }
+    table th,
+    table td {
+      height: 40px;
+      border-bottom: #999 1px solid;
+    }
+    table th {
+      background: #dcdde2;
+    }
+    table td {
+      background: #fff;
+    }
+    table td:nth-child(1) {
+      text-align: center;
+    }
+    @media all and (max-width: 560px) {
+      table td:nth-child(1) {
+        text-align: left;
+        padding-left: 20px;
+      }
+      table td a {
+        font-size: 1.4rem;
+      }
+    }
+  </style>
+</head>
+<body>
+<div class="wrapper">
+  <!-- wrap_header -->
+  <div class="wrap_header">
+    <div class="logo"></div>
+  </div>
+  <!-- // wrap_header -->
+
+  <div class="wrap_contents">
+    <table>
+      <colgroup>
+        <col style="width: 50%">
+        <col style="width: 50%">
+      </colgroup>
+      <thead>
+      <tr>
+        <th>페이지 명</th>
+        <th>상태</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr>
+        <td><a href="views_html/graph_user.html">해당월 사용자별 주문 이력 그래프</a></td>
+        <td>-</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+</body>
+</html>
+
+

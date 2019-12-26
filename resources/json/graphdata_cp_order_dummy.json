@@ -1,0 +1,147 @@
+{
+  "nodes": [
+    {
+      "id": "CP000000000000000001",
+      "group": 1,
+      "value": 1, 
+      "type": "me"
+    },
+    {
+      "id": "MBER0000000000000001",
+      "group": 2,
+      "value": 1,
+      "type": "member"
+    },
+    {
+      "id": "MBER0000000000000002",
+      "group": 2,
+      "value": 1,
+      "type": "member"
+    },
+    {
+      "id": "MBER0000000000000003",
+      "group": 2,
+      "value": 1,
+      "type": "member"
+    },
+    {
+      "id": "PRODID00000000000001",
+      "group": 3,
+      "value": 1,
+      "type": "product"
+    },
+    {
+      "id": "PRODID00000000000002",
+      "group": 3,
+      "value": 1,
+      "type": "product"
+    },
+    {
+      "id": "PRODID00000000000003",
+      "group": 3,
+      "value": 1,
+      "type": "product"
+    },
+    {
+      "id": "ORDERNUM000000000001",
+      "group": 3,
+      "value": 1,
+      "type": "order"
+    },
+    {
+      "id": "ORDERNUM000000000002",
+      "group": 3,
+      "value": 1,
+      "type": "order"
+    },
+    {
+      "id": "ORDERNUM000000000003",
+      "group": 3,
+      "value": 1,
+      "type": "order"
+    }    
+  ],
+  "links": [ 
+    {
+      "id": 1, 
+      "transaction": {
+        "txAmount": "order",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "CP000000000000000001",
+      "target": "ORDERNUM000000000001"
+    },
+    {
+      "id": 1, 
+      "transaction": {
+        "txAmount": "order",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "CP000000000000000001",
+      "target": "ORDERNUM000000000002"
+    },
+    {
+      "id": 1, 
+      "transaction": {
+        "txAmount": "order",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "CP000000000000000001",
+      "target": "ORDERNUM000000000003"
+    },
+    {
+      "id": 2,
+      "transaction": {
+        "txAmount": "order_detail",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "ORDERNUM000000000001",
+      "target": "PRODID00000000000001"
+    },
+    {
+      "id": 2,
+      "transaction": {
+        "txAmount": "order_detail",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "ORDERNUM000000000002",
+      "target": "PRODID00000000000002"
+    },
+    {
+      "id": 2,
+      "transaction": {
+        "txAmount": "order_detail",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "ORDERNUM000000000003",
+      "target": "PRODID00000000000003"
+    },   
+    {
+      "id": 3,
+      "transaction": {
+        "txAmount": "product_detail",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "PRODID00000000000001",
+      "target": "MBER0000000000000001" 
+    },
+    {
+      "id": 3,
+      "transaction": {
+        "txAmount": "product_detail",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "PRODID00000000000002",
+      "target": "MBER0000000000000002" 
+    },
+    {
+      "id": 3,
+      "transaction": {
+        "txAmount": "product_detail",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "PRODID00000000000003",
+      "target": "MBER0000000000000003" 
+    }
+  ]
+}
