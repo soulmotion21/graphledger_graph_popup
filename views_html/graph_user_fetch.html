@@ -52,28 +52,17 @@
   </div>
 
 </div>
-
-<div class="popup_dim popup_dim_transparent _loader">
-  <div class="box_loader">
-    <div class="loader">Loading...</div>
-  </div>
-</div>
-
+<script src="../resources/js/es-6promise.min.js"></script>
+<script src="../resources/js/es-6-promise.auto.min.js"></script>
+<script src="../resources/js/fetch.min.js"></script>
 <script src="../resources/js/d3.min.js"></script>
 <script src="../resources/js/ui.graph.js"></script>
 
 <script>
 
-  //API
-  const url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
-  var url2 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201912","USRCNFRM_00000001093"]';
-  const url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
+  document.addEventListener("DOMContentLoaded", graphInit);
 
-  document.addEventListener("DOMContentLoaded", function () {
-    graphInit(url1);
-  });
-
-  function graphInit(dataUrl) {
+  function graphInit() {
 
     //토큰 받기
     getToken();
@@ -92,9 +81,7 @@
     function getToken() {
 
       //토큰 API
-      const tokenUrl = 'http://218.38.52.18:4000/users';
-      let sToken = '';
-      const elLoader = document.querySelector('._loader');
+      const url = 'http://218.38.52.18:4000/users';
 
       const xhr = new XMLHttpRequest();
       const body = {
@@ -102,46 +89,48 @@
         "orgName": "Org1",
       };
 
+      let sToken = '';
 
-      xhr.open('POST', tokenUrl);
+      xhr.open('POST', url);
       xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
       xhr.send(JSON.stringify(body));
 
       xhr.onreadystatechange = function () {
         if (xhr.readyState === 4) {
-          elLoader.style.display = 'none';
-
-          if (xhr.status === 200 || xhr.status === 201) {
-            const data = JSON.parse(xhr.responseText);
-            sToken = data.token;
-            getData();
-          }
+          const data = JSON.parse(xhr.responseText);
+          sToken = data.token;
+          getData();
         }
       };
 
-      function getData() {
-        const xhr = new XMLHttpRequest();
-
+      async function getData() {
         //그래프 데이터 API
-        const url = dataUrl;
+        const url = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
 
-        xhr.open('GET', url);
-        xhr.setRequestHeader("Authorization", "Bearer " + sToken);
-        xhr.send();
+        const response = await fetch(url, {
+          headers: new Headers({
+            "Authorization": "Bearer " + sToken
+          })
+        });
 
-        xhr.onreadystatechange = function () {
+        let data = null;
 
-          if (xhr.readyState === 4) {
-            elLoader.style.display = 'none';
+        try {
+          if(response.ok) {
+            const responseData = await response.json();
+            data = responseData.result[0];
+            renderGraph(data);
 
-            if (xhr.status === 200 || xhr.status === 201) {
-              const oData = JSON.parse(xhr.responseText);
-              renderGraph(oData.result[0]);
-            } else {
-              console.error(xhr.responseText);
-            }
+          } else {
+            return console.error({
+              status: response.status,
+              statusText: response.statusText
+            });
           }
-        };
+        } catch (err) {
+          console.log(err);
+        }
+
       }
 
     }

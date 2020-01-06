@@ -65,9 +65,13 @@
 <script>
 
   //API
-  const url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
+  var url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
+  //var url2 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
+  // 테스트 USRCNFRM_00000001093
   var url2 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201912","USRCNFRM_00000001093"]';
-  const url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
+  
+  
+  var url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
 
   document.addEventListener("DOMContentLoaded", function () {
     graphInit(url1);
@@ -92,7 +96,8 @@
     function getToken() {
 
       //토큰 API
-      const tokenUrl = 'http://218.38.52.18:4000/users';
+      //const tokenUrl = 'http://218.38.52.18:4000/users';
+	  const tokenUrl = 'http://graphbc9.cafe24.com:4000/users';
       let sToken = '';
       const elLoader = document.querySelector('._loader');
 

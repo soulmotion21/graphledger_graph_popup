@@ -6,35 +6,31 @@ dmUi.view.graph = function(){};
 dmUi.view.graph.prototype = {
   /**
    * User docs graph
-   * @param url : request url
+   * @param data : response data
    */
-  drawGraph: function (url) {
+  drawGraph: function (data) {
     let self = this;
     let force, svg, container, link, linkMarker, nodeGroup, node, icons,
       nodeLabel, textBackground, linkTextGroup, edgeLabels  = null;
     let linkedByIndex = {};
+    const oData = data;
 
     if (document.querySelector('._userGraph')) {
       let width = document.querySelector('.section_contents').clientWidth / 1.5;
       let height = 400;
 
-      if (url !== undefined) {
-
-        //fetch
-        d3.json(url).then(function (data) {
+      if (oData !== undefined) {
           d3.select("svg").remove();
-
-          if (data.length === 0 || data.nodes.length === 0 && data.links.length === 0) {
+          if (oData.length === 0 || oData.nodes.length === 0 && oData.links.length === 0) {
             self.showGraphEmpty(document.querySelector('._userGraph'));
-
           } else {
             document.querySelector('.box_zoom').style.display = 'block';
             // 1. base force layout setting
             force = d3.forceSimulation().alphaDecay(0.06).force('link', d3.forceLink().id(function (node) {
               return node.id;
             }).distance(120));
-            force.nodes(data.nodes);
-            force.force('link').links(data.links);
+            force.nodes(oData.nodes);
+            force.force('link').links(oData.links);
             force.force("charge_force", d3.forceManyBody().strength(-100));
             force.force('center', d3.forceCenter(width / 2, height / 2));
             force.force("xAxis", d3.forceX(width / 2).strength(0.04));
@@ -46,8 +42,10 @@ dmUi.view.graph.prototype = {
 
             // 2. base SVG setting
             svg = d3.select('._userGraph').append('svg')
+              .attr('xmlns', "=http://www.w3.org/2000/svg")
+              .attr('xmlns:xlink', 'http://www.w3.org/1999/xlink')
               .attr('preserveAspectRatio', 'none')
-              .attr('viewBox', width / 4 + ' 100 ' + width / 2 + ' 250');
+              .attr('viewBox', width / 4 + ' 60 ' + width / 2 + ' 250');
 
             container = svg.append("g");
 
@@ -59,7 +57,7 @@ dmUi.view.graph.prototype = {
 
             // 3. Edge
             link = container.selectAll(".link")
-              .data(data.links).enter()
+              .data(oData.links).enter()
               .append('path').attr('class', 'link')
               .attr('data-index', function (links) {
                 return links.index;
@@ -68,22 +66,14 @@ dmUi.view.graph.prototype = {
               }).attr('fill-opacity', '0')
               .attr('fill', 'none')
               .style('stroke', function (d) {
-                if (
-                  d.source.type === 'me' && d.target.type === 'order' ||
-                  d.source.type === 'me' && d.target.type === 'cp' ||
-                  d.source.type === 'me' && d.target.type === 'member'
-                ) {
-                  if (d.target.type === 'product') {
-                    return 'rgba(145,146,155,0.8)'
-                  } else {
-                    return 'rgba(69,187,246,1)' //me
-                  }
-                } else {
-                  if (d.source.type === 'order' && d.target.type === 'product') {
-                    return 'rgba(153,169,252,1)' // order -> product
-                  } else {
+                switch (d.transaction.txAmount) {
+                  case 'order':
+                    return 'rgba(79,195,247,0.8)';
+                  case 'order_detail':
+                  case 'product_detail':
+                    return 'rgba(153,169,251,1)';
+                  default :
                     return 'rgba(145,146,155,0.8)';
-                  }
                 }
               }).attr("marker-end", function (d) {
                 return "url(#" + d.target.id + ")";
@@ -99,7 +89,7 @@ dmUi.view.graph.prototype = {
 
             // 4. edge arrows
             linkMarker = container.append("defs").selectAll("marker")
-              .data(data.links).enter().append("marker").attr("id", function (d) {
+              .data(oData.links).enter().append("marker").attr("id", function (d) {
                 return d.target.id;
               }).attr('class', function (d) {
                 return 'marker' + d.target.index;
@@ -111,13 +101,14 @@ dmUi.view.graph.prototype = {
               .attr("orient", "auto")
               .append("svg:path")
               .attr('fill', function (d) {
-                if (d.source.type === 'me' && d.target.type === 'order') {
-                  return 'rgba(69,187,246,1)' //me -> order
-                } else {
-                  if (d.source.type === 'order' && d.target.type === 'product') {
-                    return 'rgba(153,169,252,1)' // order -> product
-                  }
-                  return 'rgba(145,146,155,1)';
+                switch (d.transaction.txAmount) {
+                  case 'order':
+                    return 'rgba(79,195,247,0.8)';
+                  case 'order_detail':
+                  case 'product_detail':
+                    return 'rgba(153,169,251,1)';
+                  default :
+                    return 'rgba(145,146,155,0.8)';
                 }
 
               }).attr("d", "M0,-5L10,0L0,5");
@@ -125,7 +116,7 @@ dmUi.view.graph.prototype = {
 
             // 5. node setting : nodes -> g
             nodeGroup = container.selectAll('.node-group')
-              .data(data.nodes).enter().append("g")
+              .data(oData.nodes).enter().append("g")
               .attr('data-index', function (d) {
                 return d.index;
               }).on("mouseover", mouseOver(.1)).on("mouseout", mouseOut)
@@ -140,71 +131,39 @@ dmUi.view.graph.prototype = {
                 return '10';
               }
             }).attr('fill', function (d) {
-              return self.colorMix1(d.group)
-            }).attr('stroke', function (d) {
-              if(d.index === 1) {
-                debugger
-              }
-              switch (d.type) {
-                case "me":
-                  return 'rgba(210, 168, 0, 0.5)';
+              var sType = d.type;
+              switch(sType){
+                case "member":
+                  return 'rgba(255,205,0,1)';
                 case "order":
-                  return 'rgba(0, 130, 188, 0.5)';
-                case "cp":
-                  return 'rgba(0, 170, 147, 0.5)';
+                  return 'rgba(79,195,247,1)';
                 case "product":
-                  return 'rgba(153, 169, 252, 0.5)';
-                default:
-                  return '#ffffff';
+                  return 'rgba(0,220,190,1)';
+                case "cp":
+                  return 'rgba(153,169,251,1)';
+              }
+            }).attr('stroke', function (d) {
+              if (d.type === 'member') {
+                return 'rgba(210, 168, 0, 0.5)';
+              } else {
+                return 'rgba(79,195,247, 0.5)';
               }
             }).attr('stroke-width', function (d) {
-              if (d.type === "me") {
-                return '1.5';
-              } else {
-                return '1.5';
-              }
+              return '1.5';
             }).attr('stroke-position', 'center');
 
             // 6. Inserted node icon
             icons = nodeGroup.append('svg:foreignObject')
               .html(function (d) {
-                switch (d.type) {
-                  case "me":
-                    return '<p>MBER ID</p>';
-                  case "order":
-                    return '<p>ORDER NUM</p>';
-                  case "cp":
-                    return '<p>CP ID</p>';
-                  case "product":
-                    return '<p>PRODUCT ID</p>';
-                  default:
-                    return '<p></p>';
+                if(d.sum !== undefined) {
+                  return '<div xmlns="http://www.w3.org/1999/xhtml">'+ d.id +'</div>';
+                } else {
+                  return '<div xmlns="http://www.w3.org/1999/xhtml">'+ d.type +'</div>';
                 }
-                // return '<p>' + d.id + '</p>'
               }).attr('x', function (d) {
-                switch (d.type) {
-                  case "me":
-                    return -4;
-                  case "order":
-                    return -4;
-                  case "cp":
-                  case "product":
-                    return -4;
-                  default:
-                    return -4;
-                }
+                return -4;
               }).attr('y', function (d) {
-                switch (d.type) {
-                  case "me":
-                    return -5;
-                  case "order":
-                    return -5;
-                  case "cp":
-                  case "product":
-                    return -5;
-                  default:
-                    return -5;
-                }
+                return -6;
               }).on("mouseover", mouseOver(.2)).on("mouseout", mouseOut);
 
             // 7. node text labels setting
@@ -217,8 +176,8 @@ dmUi.view.graph.prototype = {
                 }
               })
               .text(function (node) {
-                if(node.PAY_SUM !== undefined) {
-                  return node.PAY_SUM;
+                if(node.sum !== undefined) {
+                  return node.sum;
                 } else {
                   return node.id
                 }
@@ -252,7 +211,7 @@ dmUi.view.graph.prototype = {
 
             // 9. edge text container
             linkTextGroup = container.selectAll('.link-text-group')
-              .data(data.links).enter().append("g")
+              .data(oData.links).enter().append("g")
               .attr('class', 'link-text-group')
               .attr('data-id', function (d) {
                 return d.id
@@ -346,7 +305,7 @@ dmUi.view.graph.prototype = {
 
 
             // build a dictionary of nodes that are linked
-            data.links.forEach(function (d) {
+            oData.links.forEach(function (d) {
               linkedByIndex[d.source.index + "," + d.target.index] = 1;
             });
 
@@ -490,33 +449,16 @@ dmUi.view.graph.prototype = {
                   }
 
                 }).style('stroke', function (o) {
-                  if (
-                    o.source.id === d.id.split('_')[1] ||
-                    o.source === d || o.target === d
-                  ) {
-                    if (o.source.type === 'me') {
-                      if (o.target.type === 'product') {
-                        return 'rgba(123,123,255,1)';
-                      } else {
-                        return 'rgba(69,187,246,1)';
-                      }
-                    } else {
-                      return 'rgba(123,123,255,1)';
-                    }
-                  } else {
-                    if (o.source.type === 'me' && o.target.type === 'order') {
-                      return 'rgba(69,187,246,1)' //me -> order
-                    } else {
-                      if (
-                        o.source.type === 'order' && o.target.type === 'product' ||
-                        o.source.type === 'cp' && o.target.type === 'product'
-                      ) {
-                        return 'rgba(123,123,255,1)' // order -> product
-                      }
-                      return 'rgba(123,123,255,1)' // cp -> product
-                    }
-
+                  switch (o.transaction.txAmount) {
+                    case 'order':
+                      return 'rgba(79,195,247,0.8)';
+                    case 'order_detail':
+                    case 'product_detail':
+                      return 'rgba(153,169,251,1)';
+                    default :
+                      return 'rgba(145,146,155,0.8)';
                   }
+
                 }).style('stroke-width', function (o) {
                   if (
                     o.source.id.split('_')[1] !== undefined || //수정한 사람 노드 비교 추가
@@ -544,16 +486,14 @@ dmUi.view.graph.prototype = {
                 });
 
                 linkMarker.attr('fill', function (d) {
-                  if (d.source.type === 'me' && d.target.type === 'order') {
-                    return 'rgba(69,187,246,1)' //me -> order
-                  } else {
-                    if (
-                      d.source.type === 'order' && d.target.type === 'product' ||
-                      d.source.type === 'cp' && d.target.type === 'product'
-                    ) {
-                      return 'rgba(123,123,255,1)' // order -> product
-                    }
-                    return 'rgba(123,123,255,1)' // cp -> product
+                  switch (d.transaction.txAmount) {
+                    case 'order':
+                      return 'rgba(79,195,247,0.8)';
+                    case 'order_detail':
+                    case 'product_detail':
+                      return 'rgba(153,169,251,1)';
+                    default :
+                      return 'rgba(145,146,155,0.8)';
                   }
 
                 });
@@ -566,14 +506,14 @@ dmUi.view.graph.prototype = {
             function mouseOut() {
               nodeGroup.attr("opacity", 1);
               linkMarker.attr("opacity", 1).attr('fill', function (d) {
-                if (d.source.type === 'me' && d.target.type === 'order') {
-                  if (d.target.type === 'product') {
-                    return 'rgba(145, 146, 155, 1)'
-                  } else {
-                    return 'rgba(69,187,246,1)' //me -> order
-                  }
-                } else {
-                  return 'rgba(145, 146, 155, 1)' // order -> product
+                switch (d.transaction.txAmount) {
+                  case 'order':
+                    return 'rgba(79,195,247,0.8)';
+                  case 'order_detail':
+                  case 'product_detail':
+                    return 'rgba(153,169,251,1)';
+                  default :
+                    return 'rgba(145,146,155,0.8)';
                 }
               });
 
@@ -583,18 +523,14 @@ dmUi.view.graph.prototype = {
 
               link.attr("opacity", 1)
                 .style('stroke', function (d) {
-                  if (d.source.type === 'me' && d.target.type === 'order') {
-                    if (d.target.type === 'product') {
-                      return 'rgba(145,146,155,0.8)'
-                    } else {
-                      return 'rgba(69,187,246,1)' //me
-                    }
-                  } else {
-                    if (d.source.type === 'order' && d.target.type === 'product') {
-                      return 'rgba(153,169,252,1)' // order -> product
-                    } else {
+                  switch (d.transaction.txAmount) {
+                    case 'order':
+                      return 'rgba(79,195,247,0.8)';
+                    case 'order_detail':
+                    case 'product_detail':
+                      return 'rgba(153,169,251,1)';
+                    default :
                       return 'rgba(145,146,155,0.8)';
-                    }
                   }
                 }).style('stroke-width', '0.5');
             }
@@ -624,22 +560,22 @@ dmUi.view.graph.prototype = {
 
           }
 
-        }); //d3 then
-
+      } else { // data undefined
+        self.showGraphEmpty(document.querySelector('._userGraph'));
       }
     }
 
   },
   showGraphEmpty: function (el) {
+    document.querySelector('.box_zoom').style.display = 'none';
     el.innerHTML = '';
-    el.innerHTML = '<p style="height: 500px;text-align: center; padding: 60px 0 0 0"><i class="fas fa-info-circle" style="color: #bdcae2; font-size: 4rem;vertical-align: middle"></i>' + '<span style="vertical-align: middle; font-size: 1.8rem; color: #8d97ad">' + ' No Data' + '</span>' + '</p>';
+    el.innerHTML = '<p style="height: 751px;text-align: center; padding: 345px 0 0 0">' + '<span style="vertical-align: middle; font-size: 1.8rem; color: #8d97ad">' + ' No Data' + '</span>' + '</p>';
   },
   colorMix1: function (n) {
     var colors1 = [
-      "rgba(255,205,0,1)",
-      "rgba(255,205,0,1)", //me
-      "rgba(79,195,247,1)", //user
-      "rgba(0,220,190,1)", //doc
+      "rgba(255,205,0,1)", //1st
+      "rgba(79,195,247,1)", //cp
+      "rgba(0,220,190,1)", //order
       "rgba(153,169,251,1)" //product
     ];
 
