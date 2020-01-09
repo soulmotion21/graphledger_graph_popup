@@ -20,11 +20,12 @@
         <ul>
           <li>has_order</li>
           <li>has_product</li>
+          <li>settlement</li><!-- 2020.0108 추가 -->
           <li>supplies</li>
         </ul>
       </div>
 
-      <div class="box_legend_dot _legendDot">
+      <div class="box_legend_dot">
         <ul class="clearfix">
           <li><span></span>
             <p>member</p></li>
@@ -34,6 +35,8 @@
             <p>product</p></li>
           <li><span></span>
             <p>cp</p></li>
+          <li><span></span>
+            <p>settlement</p></li><!-- 2020.0108 추가 -->
         </ul>
       </div>
 
@@ -65,9 +68,14 @@
 <script>
 
   //API
-  const url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
-  var url2 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201912","USRCNFRM_00000001093"]';
-  const url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
+  // const url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
+  // const url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
+  // var url2 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201912","USRCNFRM_00000001093"]';
+  // const url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
+
+  // const url1 = '../resources/json/graphdata_cp_settlement_dummy.json';
+
+  const url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=[%22201911%22,%22M_1000%22]';
 
   document.addEventListener("DOMContentLoaded", function () {
     graphInit(url1);

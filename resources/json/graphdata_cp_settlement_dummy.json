@@ -5,45 +5,52 @@
       "nodes": [
         {
           "id": "CP000000000000000001",
+          "name": "CP000000000000000001",
           "group": 1,
           "value": 1,
           "type": "cp"
         },
         {
           "id": "ORDERNUM000000000001",
+          "name": "S_1000",
           "group": 3,
           "value": 1,
-          "type": "order",
+          "type": "settlement",
           "sum": "50,000,000"
         },
         {
           "id": "ORDERNUM000000000002",
+          "name": "S_2000",
           "group": 3,
           "value": 1,
-          "type": "order",
+          "type": "settlement",
           "sum": "50,000,000"
         },
         {
           "id": "ORDERNUM000000000003",
+          "name": "S_3000",
           "group": 3,
           "value": 1,
-          "type": "order",
+          "type": "settlement",
           "sum": "50,000,000"
         },
         {
           "id": "PRODID00000000000001",
+          "name": "PRODID00000000000001",
           "group": 3,
           "value": 1,
           "type": "product"
         },
         {
           "id": "PRODID00000000000002",
+          "name": "PRODID00000000000002",
           "group": 3,
           "value": 1,
           "type": "product"
         },
         {
           "id": "PRODID00000000000003",
+          "name": "PRODID00000000000003",
           "group": 3,
           "value": 1,
           "type": "product"
@@ -53,7 +60,7 @@
         {
           "id": 3,
           "transaction": {
-            "txAmount": "order",
+            "txAmount": "settlement",
             "date": "2019-01-29 16:50:34.304"
           },
           "source": "CP000000000000000001",
@@ -62,7 +69,7 @@
         {
           "id": 3,
           "transaction": {
-            "txAmount": "order",
+            "txAmount": "settlement",
             "date": "2019-01-29 16:50:34.304"
           },
           "source": "CP000000000000000001",
@@ -71,7 +78,7 @@
         {
           "id": 3,
           "transaction": {
-            "txAmount": "order",
+            "txAmount": "settlement",
             "date": "2019-01-29 16:50:34.304"
           },
           "source": "CP000000000000000001",

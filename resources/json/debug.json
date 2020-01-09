@@ -1,0 +1,54 @@
+{
+  "success": true,
+  "result": [
+    {
+      "nodes": [
+        {
+          "id": "M_1000",
+          "name": "kims",
+          "type": "member"
+        },
+        {
+          "id": "O_1000",
+          "type": "order"
+        },
+        {
+          "id": "P_1000",
+          "name": "Notebook",
+          "type": "product"
+        },
+        {
+          "id": "CP_1000",
+          "name": "LG-CP",
+          "type": "cp"
+        }
+      ],
+      "links": [
+        {
+          "source": "M_1000",
+          "target": "O_1000",
+          "transaction": {
+            "txAmount": "order",
+            "date": "20191126142021"
+          }
+        },
+        {
+          "source": "O_1000",
+          "target": "P_1000",
+          "transaction": {
+            "txAmount": "order_detail",
+            "date": "20191126142021"
+          }
+        },
+        {
+          "source": "P_1000",
+          "target": "CP_1000",
+          "transaction": {
+            "txAmount": "product_detail",
+            "date": "20191126142021"
+          }
+        }
+      ]
+    }
+  ]
+}

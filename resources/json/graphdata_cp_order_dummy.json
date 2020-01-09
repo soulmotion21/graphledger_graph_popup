@@ -5,60 +5,70 @@
       "nodes": [
         {
           "id": "CP000000000000000001",
+          "name": "name1",
           "group": 1,
           "value": 1,
           "type": "cp"
         },
         {
           "id": "MBER0000000000000001",
+          "name": "name2",
           "group": 2,
           "value": 1,
           "type": "member"
         },
         {
           "id": "MBER0000000000000002",
+          "name": "name3030303030303030303030303030303030303030303030303030",
           "group": 2,
           "value": 1,
           "type": "member"
         },
         {
           "id": "MBER0000000000000003",
+          "name": "settlement",
           "group": 2,
           "value": 1,
-          "type": "member"
+          "type": "settlement"
         },
         {
           "id": "PRODID00000000000001",
+          "name": "name5",
           "group": 3,
           "value": 1,
           "type": "product"
         },
         {
           "id": "PRODID00000000000002",
+          "name": "name6",
           "group": 3,
           "value": 1,
           "type": "product"
         },
         {
           "id": "PRODID00000000000003",
+          "name": "name77777777777777777777777777777777777777",
           "group": 3,
           "value": 1,
           "type": "product"
         },
         {
           "id": "ORDERNUM000000000001",
+          "name": "name8",
           "group": 3,
           "value": 1,
           "type": "order"
         },
         {
           "id": "ORDERNUM000000000002",
+          "name": "name9",
           "group": 3,
           "value": 1,
           "type": "order"
         },
         {
           "id": "ORDERNUM000000000003",
+          "name": "name10",
           "group": 3,
           "value": 1,
           "type": "order"
@@ -69,7 +79,7 @@
           "id": 1,
           "transaction": {
             "txAmount": "order",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "CP000000000000000001",
           "target": "ORDERNUM000000000001"
@@ -78,7 +88,7 @@
           "id": 1,
           "transaction": {
             "txAmount": "order",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "CP000000000000000001",
           "target": "ORDERNUM000000000002"
@@ -87,7 +97,7 @@
           "id": 1,
           "transaction": {
             "txAmount": "order",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "CP000000000000000001",
           "target": "ORDERNUM000000000003"
@@ -96,7 +106,7 @@
           "id": 2,
           "transaction": {
             "txAmount": "order_detail",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "ORDERNUM000000000001",
           "target": "PRODID00000000000001"
@@ -105,7 +115,7 @@
           "id": 2,
           "transaction": {
             "txAmount": "order_detail",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "ORDERNUM000000000002",
           "target": "PRODID00000000000002"
@@ -114,7 +124,7 @@
           "id": 2,
           "transaction": {
             "txAmount": "order_detail",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "ORDERNUM000000000003",
           "target": "PRODID00000000000003"
@@ -123,7 +133,7 @@
           "id": 3,
           "transaction": {
             "txAmount": "product_detail",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "PRODID00000000000001",
           "target": "MBER0000000000000001"
@@ -131,8 +141,8 @@
         {
           "id": 3,
           "transaction": {
-            "txAmount": "product_detail",
-            "date": "2019-01-29 16:50:34.304"
+            "txAmount": "settlement",
+            "date": "20190129165034"
           },
           "source": "PRODID00000000000002",
           "target": "MBER0000000000000002"
@@ -141,7 +151,7 @@
           "id": 3,
           "transaction": {
             "txAmount": "product_detail",
-            "date": "2019-01-29 16:50:34.304"
+            "date": "20190129165034"
           },
           "source": "PRODID00000000000003",
           "target": "MBER0000000000000003"

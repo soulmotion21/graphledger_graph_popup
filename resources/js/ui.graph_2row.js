@@ -72,8 +72,6 @@ dmUi.view.graph.prototype = {
                   case 'order_detail':
                   case 'product_detail':
                     return 'rgba(153,169,251,1)';
-                  case 'settlement':
-                    return 'rgba(255,162,0,0.8)';
                   default :
                     return 'rgba(145,146,155,0.8)';
                 }
@@ -109,13 +107,12 @@ dmUi.view.graph.prototype = {
                   case 'order_detail':
                   case 'product_detail':
                     return 'rgba(153,169,251,1)';
-                  case 'settlement':
-                    return 'rgba(255,162,0,0.8)';
                   default :
                     return 'rgba(145,146,155,0.8)';
                 }
 
               }).attr("d", "M0,-5L10,0L0,5");
+
 
             // 5. node setting : nodes -> g
             nodeGroup = container.selectAll('.node-group')
@@ -144,32 +141,32 @@ dmUi.view.graph.prototype = {
                   return 'rgba(0,220,190,1)';
                 case "cp":
                   return 'rgba(153,169,251,1)';
-                case "settlement":
-                  return 'rgba(255,162,0,1)';
-                default :
-                  return 'rgba(170,170,170,1)';
               }
             }).attr('stroke', function (d) {
-              var sType = d.type;
-              switch(sType){
-                case "member":
-                  return 'rgba(210, 168, 0, 0.5)';
-                case "order":
-                  return 'rgba(79,195,247, 0.5)';
-                case "product":
-                  return 'rgba(0,220,190,0.5)';
-                case "cp":
-                  return 'rgba(153,169,251,0.5)';
-                case "settlement":
-                  return 'rgba(211, 134, 0, 0.5)';
-                default :
-                  return 'rgba(125,125,125,0.5)';
+              if (d.type === 'member') {
+                return 'rgba(210, 168, 0, 0.5)';
+              } else {
+                return 'rgba(79,195,247, 0.5)';
               }
             }).attr('stroke-width', function (d) {
               return '1.5';
             }).attr('stroke-position', 'center');
 
             // 6. Inserted node icon
+            // icons = nodeGroup.append('svg:foreignObject')
+            //   .html(function (d) {
+            //     if(d.sum !== undefined) {
+            //       // return '<div xmlns="http://www.w3.org/1999/xhtml">'+ d.id +'</div>';
+            //       return '<div xmlns="http://www.w3.org/1999/xhtml">'+ d.id +'</div>';
+            //     } else {
+            //       return '<div xmlns="http://www.w3.org/1999/xhtml">'+ d.type +'</div>';
+            //     }
+            //   }).attr('x', function (d) {
+            //     return -4;
+            //   }).attr('y', function (d) {
+            //     return -6;
+            //   }).on("mouseover", mouseOver(.2)).on("mouseout", mouseOut);
+
             icons = nodeGroup.append('text', function (d) {
               if(d.sum !== undefined) {
                 return '<tspan>'+ d.id +'</tspan>';
@@ -181,7 +178,6 @@ dmUi.view.graph.prototype = {
             }).attr('y', function (d) {
               return -4;
             }).attr("dy", 3).attr('text-anchor', 'middle').on("mouseover", mouseOver(.2)).on("mouseout", mouseOut);
-            // dy, 3
 
             icons.append('tspan').text(function (d) {
               if(d.sum !== undefined) {
@@ -189,7 +185,17 @@ dmUi.view.graph.prototype = {
               } else {
                 return d.type;
               }
-            }).attr("x", 0).attr("dx", 0).attr("dy", 5).attr('text-anchor', 'middle');
+            }).attr("x", 0).attr("dx", 0);
+
+            // icons.append('tspan').text(function (d) {
+            //   if(d.sum !== undefined) {
+            //     return d.id;
+            //   } else {
+            //     return d.type;
+            //   }
+            // }).attr("x", 0)
+            //   .attr("dx", 0)
+            //   .attr("dy", 5).attr('text-anchor', 'middle');
 
 
             // 7. node text labels setting
@@ -200,39 +206,38 @@ dmUi.view.graph.prototype = {
                 } else {
                   return 'node-label';
                 }
-              }).attr('dy', function (d) {
-                return '12';
-              }).call(self.getBBox);
-
-            nodeLabel.append('tspan')
+              })
               .text(function (node) {
-              if(node.sum !== undefined) {
-                return '정산금액 : ' + node.sum;
-              } else {
-                if(node.name !== undefined) {
-                  if(node.name.length >= 30) { // 30
-                    var sName = node.name.substr(0, 30);
-                    return sName + '...';
-                  } else {
-                    return node.name;
-                  }
+                if(node.sum !== undefined) {
+                  return '정산금액 : ' + node.sum;
                 } else {
                   return node.id
                 }
-              }
-            }).call(self.getBBox);
+              })
+              // .attr('dx', 10)
+              .attr('dy', function (d) {
+                if (d.type === 'me') {
+                  return '12';
+                } else {
+                  return '12';
+                }
+              }).call(self.getBBox);
 
             // 8. node text label background
             textBackground = nodeGroup.insert('svg:rect', 'text')
               .attr('x', function (d) {
                 return d.bbox.x - 0.5
-              }).attr('y', function (d) {
+              })
+              .attr('y', function (d) {
                 return d.bbox.y
-              }).attr('width', function (d) {
+              })
+              .attr('width', function (d) {
                 return d.bbox.width + 1
-              }).attr('height', function (d) {
+              })
+              .attr('height', function (d) {
                 return d.bbox.height
-              }).attr('class', function (d) {
+              })
+              .attr('class', function (d) {
                 return 'bbox ' + 'node' + d.index;
               });
 
@@ -242,7 +247,8 @@ dmUi.view.graph.prototype = {
               .attr('class', 'link-text-group')
               .attr('data-id', function (d) {
                 return d.id
-              }).attr('data-index', function (d) {
+              })
+              .attr('data-index', function (d) {
                 return d.index
               });
 
@@ -261,16 +267,9 @@ dmUi.view.graph.prototype = {
             edgeLabels.append('textPath')
               .attr('xlink:href', function (d, i) {
                 return '#edgepath' + i
-              }).text(function (d) {
-              var sDate = d.transaction.date;
-              var sYear = sDate.substr(0,4);
-              var sMonth = sDate.substr(4,2);
-              var sDay = sDate.substr(6,2);
-              var sHour = sDate.substr(8,2);
-              var sMin = sDate.substr(10,2);
-              var sSecond = sDate.substr(12,2);
-
-              return sYear + '-' + sMonth + '-' + sDay + ' ' + sHour + ':' + sMin + ':' + sSecond;
+              })
+              .text(function (d) {
+                return d.transaction.date;
               });
 
             function dragStarted(d) {
@@ -488,8 +487,6 @@ dmUi.view.graph.prototype = {
                     case 'order_detail':
                     case 'product_detail':
                       return 'rgba(153,169,251,1)';
-                    case 'settlement':
-                      return 'rgba(255,162,0,0.8)';
                     default :
                       return 'rgba(145,146,155,0.8)';
                   }
@@ -526,9 +523,7 @@ dmUi.view.graph.prototype = {
                       return 'rgba(79,195,247,0.8)';
                     case 'order_detail':
                     case 'product_detail':
-                      return 'rgba(153,169,251,0.8)';
-                    case 'settlement':
-                      return 'rgba(255,162,0,0.8)';
+                      return 'rgba(153,169,251,1)';
                     default :
                       return 'rgba(145,146,155,0.8)';
                   }
@@ -549,8 +544,6 @@ dmUi.view.graph.prototype = {
                   case 'order_detail':
                   case 'product_detail':
                     return 'rgba(153,169,251,1)';
-                  case 'settlement':
-                    return 'rgba(255,162,0,0.8)';
                   default :
                     return 'rgba(145,146,155,0.8)';
                 }
@@ -568,8 +561,6 @@ dmUi.view.graph.prototype = {
                     case 'order_detail':
                     case 'product_detail':
                       return 'rgba(153,169,251,1)';
-                    case 'settlement':
-                      return 'rgba(255,162,0,0.8)';
                     default :
                       return 'rgba(145,146,155,0.8)';
                   }
