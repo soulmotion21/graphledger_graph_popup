@@ -62,28 +62,32 @@
   </div>
 </div>
 
-<script src="../resources/js/es6-promise.min.js"></script><!-- 2020.01.10 크로스브라우징을 위해 라이브러리추가-->
-<script src="../resources/js/es6-promise.auto.min.js"></script><!-- 2020.01.10 크로스브라우징을 위해 라이브러리추가-->
-<script src="../resources/js/fetch.min.js"></script><!-- 2020.01.10 크로스브라우징을 위해 라이브러리추가-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.min.js" integrity="sha256-45YA33UQCDcJsntBst2bhka2t/LBNHP7RNvpllHPkQ0=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/es6-promise/4.1.1/es6-promise.auto.min.js" integrity="sha256-OI3N9zCKabDov2rZFzl8lJUXCcP7EmsGcGoP6DMXQCo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/fetch/2.0.4/fetch.min.js" integrity="sha256-eOUokb/RjDw7kS+vDwbatNrLN8BIvvEhlLM5yogcDIo=" crossorigin="anonymous"></script>
 <script src="../resources/js/d3.min.js"></script>
-<script src="../resources/js/ui.graph.js"></script>
+<!--<script src="https://d3js.org/d3.v4.js"></script>-->
+
+<script src="../resources/js/ui.graph1.js"></script>
 
 <script>
 
   //API
-  // var url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
-  // var url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
+  // const url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
+  // const url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
   // var url2 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201912","USRCNFRM_00000001093"]';
-  // var url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
-  // var url1 = '../resources/json/debug.json';
-  // var url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
+  // const url3 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
+
+  var url1 = '../resources/json/debug.json';
+
+  // const url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
 
   document.addEventListener("DOMContentLoaded", function () {
-    var userAgent = window.navigator.userAgent; //2020.01.10 브라우저 체크를 위한 userAgent 추가
-    graphInit(url1, userAgent);
+    // graphInit(url1);
   });
+  graphInit(url1);
 
-  function graphInit(dataUrl, userAgent) { //2020.01.10 브라우저 체크를 위한 userAgent 추가
+  function graphInit(dataUrl) {
 
     //토큰 받기
     getToken();
@@ -93,9 +97,9 @@
      * @param data
      * @returns {dmUi.view.graph}
      */
-    var renderGraph = function (data) {
+    var renderGraph = function (string) {
       var oGraphledger = new dmUi.view.graph();
-      oGraphledger.drawGraph(data, userAgent); //2020.01.10 브라우저 체크를 위한 userAgent 추가
+      oGraphledger.drawGraph(url1, string);
       return oGraphledger;
     };
 
@@ -124,7 +128,10 @@
           if (xhr.status === 200 || xhr.status === 201) {
             var data = JSON.parse(xhr.responseText);
             sToken = data.token;
-            getData();
+            // getData();
+
+            renderGraph(sToken);
+
           }
         }
       };

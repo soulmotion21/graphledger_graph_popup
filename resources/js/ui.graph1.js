@@ -1,28 +1,35 @@
 // 최신버전
 var dmUi = dmUi || {};
 dmUi.view = dmUi.view || {};
-dmUi.view.graph = function(){};
+dmUi.view.graph = function () {
+};
 
 dmUi.view.graph.prototype = {
   /**
    * User docs graph
    * @param data : response data
    */
-  drawGraph: function (data, userAgent) {
+  drawGraph: function (url, token) {
     var self = this;
     var force, svg, container, link, linkMarker, nodeGroup, node, icons,
-      nodeLabel, textBackground, linkTextGroup, edgeLabels  = null;
+      nodeLabel, textBackground, linkTextGroup, edgeLabels = null;
     var linkedByIndex = {};
-    var oData = data;
-    var sUserAgent = userAgent;
-    var isIE = sUserAgent.indexOf('Trident');
+    // const oData = data;
 
     if (document.querySelector('._userGraph')) {
       var width = document.querySelector('.section_contents').clientWidth / 1.5;
       var height = 400;
 
-      if (oData !== undefined) {
+      if (url !== undefined) {
+        d3.json(url, {
+          method: "GET",
+          headers: {
+            "Authorization": "Bearer " + token
+          }
+        }).then(function (data) {
+          var oData = data.result[0];
           d3.select("svg").remove();
+
           if (oData.length === 0 || oData.nodes.length === 0 && oData.links.length === 0) {
             self.showGraphEmpty(document.querySelector('._userGraph'));
           } else {
@@ -31,7 +38,7 @@ dmUi.view.graph.prototype = {
             force = d3.forceSimulation().alphaDecay(0.06).force('link', d3.forceLink().id(function (node) {
               return node.id;
             }).distance(120));
-            force.nodes(oData.nodes).on('tick', tick);
+            force.nodes(oData.nodes);
             force.force('link').links(oData.links);
             force.force("charge_force", d3.forceManyBody().strength(-100));
             force.force('center', d3.forceCenter(width / 2, height / 2));
@@ -40,6 +47,7 @@ dmUi.view.graph.prototype = {
             force.force("collide", d3.forceCollide().radius(function (d) {
               return d.r * 20;
             }).iterations(10).strength(1));
+            force.on('tick', tick);
 
             // 2. base SVG setting
             svg = d3.select('._userGraph').append('svg')
@@ -64,16 +72,15 @@ dmUi.view.graph.prototype = {
                 return links.index;
               }).attr("marker-end", function (links) {
                 return "url(#" + links.target.id + ")";
-              }).attr('fill', function () {
-                return 'none';
-              })
+              }).attr('fill-opacity', '0')
+              .attr('fill', 'none')
               .style('stroke', function (d) {
                 switch (d.transaction.txAmount) {
                   case 'order':
                     return 'rgba(79,195,247,0.8)';
                   case 'order_detail':
                   case 'product_detail':
-                    return 'rgba(153,169,251,0.8)';
+                    return 'rgba(153,169,251,1)';
                   case 'settlement':
                     return 'rgba(255,162,0,0.8)';
                   default :
@@ -137,7 +144,7 @@ dmUi.view.graph.prototype = {
               }
             }).attr('fill', function (d) {
               var sType = d.type;
-              switch(sType){
+              switch (sType) {
                 case "member":
                   return 'rgba(255,205,0,1)';
                 case "order":
@@ -153,7 +160,7 @@ dmUi.view.graph.prototype = {
               }
             }).attr('stroke', function (d) {
               var sType = d.type;
-              switch(sType){
+              switch (sType) {
                 case "member":
                   return 'rgba(210, 168, 0, 0.5)';
                 case "order":
@@ -173,10 +180,10 @@ dmUi.view.graph.prototype = {
 
             // 6. Inserted node icon
             icons = nodeGroup.append('text', function (d) {
-              if(d.sum !== undefined) {
-                return '<tspan>'+ d.id +'</tspan>';
+              if (d.sum !== undefined) {
+                return '<tspan>' + d.id + '</tspan>';
               } else {
-                return '<tspan>'+ d.type +'</tspan>';
+                return '<tspan>' + d.type + '</tspan>';
               }
             }).attr('x', function (d) {
               return -4;
@@ -186,7 +193,7 @@ dmUi.view.graph.prototype = {
             // dy, 3
 
             icons.append('tspan').text(function (d) {
-              if(d.sum !== undefined) {
+              if (d.sum !== undefined) {
                 return d.id;
               } else {
                 return d.type;
@@ -205,33 +212,28 @@ dmUi.view.graph.prototype = {
               }).attr('dy', function (d) {
                 return '12';
               }).text(function (node) {
-              if(node.sum !== undefined) {
-                return '정산금액 : ' + node.sum;
-              } else {
-                if(node.name !== undefined) {
-                  if(node.name.length >= 30) { // 30
-                    var sName = node.name.substr(0, 30);
-                    return sName + '...';
-                  } else {
-                    return node.name;
-                  }
+                if (node.sum !== undefined) {
+                  return '정산금액 : ' + node.sum;
                 } else {
-                  return node.id
+                  if (node.name !== undefined) {
+                    if (node.name.length >= 30) { // 30
+                      var sName = node.name.substr(0, 30);
+                      return sName + '...';
+                    } else {
+                      return node.name;
+                    }
+                  } else {
+                    return node.id
+                  }
                 }
-              }
-            }).call(self._getBBox);
+              }).call(self._getBBox);
 
             // 8. node text label background
             textBackground = nodeGroup.insert('svg:rect', 'text')
               .attr('x', function (d) {
                 return d.bbox.x - 0.5
               }).attr('y', function (d) {
-                if(isIE > -1){
-                  return d.bbox.y - 0.5;
-                } else {
-                  return d.bbox.y
-                }
-
+                return d.bbox.y
               }).attr('width', function (d) {
                 return d.bbox.width + 1
               }).attr('height', function (d) {
@@ -267,15 +269,15 @@ dmUi.view.graph.prototype = {
                 return '#edgepath' + i
               }).text(function (d) {
               var sDate = d.transaction.date;
-              var sYear = sDate.substr(0,4);
-              var sMonth = sDate.substr(4,2);
-              var sDay = sDate.substr(6,2);
-              var sHour = sDate.substr(8,2);
-              var sMin = sDate.substr(10,2);
-              var sSecond = sDate.substr(12,2);
+              var sYear = sDate.substr(0, 4);
+              var sMonth = sDate.substr(4, 2);
+              var sDay = sDate.substr(6, 2);
+              var sHour = sDate.substr(8, 2);
+              var sMin = sDate.substr(10, 2);
+              var sSecond = sDate.substr(12, 2);
 
               return sYear + '-' + sMonth + '-' + sDay + ' ' + sHour + ':' + sMin + ':' + sSecond;
-              });
+            });
 
             function dragStarted(d) {
               d3.event.sourceEvent.stopPropagation();
@@ -302,10 +304,10 @@ dmUi.view.graph.prototype = {
               });
 
               link.attr("d", linkArc);
-
+              
               edgeLabels.attr('transform', function (d) {
                 if (d.target.x < d.source.x) {
-                  var bbox = this.getBBox(); // this -> text
+                  var bbox = this.childNodes[0].getBBox(); // this -> text
                   var rx = bbox.x + bbox.width / 2;
                   var ry = bbox.y + bbox.height / 2;
                   return 'rotate(180 ' + rx + ' ' + ry + ')';
@@ -314,6 +316,7 @@ dmUi.view.graph.prototype = {
                 }
 
               });
+
 
               function linkArc(d) {
                 var dx = d.target.x - d.source.x,
@@ -527,14 +530,14 @@ dmUi.view.graph.prototype = {
                 linkMarker.attr('fill', function (d) {
                   switch (d.transaction.txAmount) {
                     case 'order':
-                      return 'rgba(79,195,247,1)';
+                      return 'rgba(79,195,247,0.8)';
                     case 'order_detail':
                     case 'product_detail':
-                      return 'rgba(153,169,251,1)';
+                      return 'rgba(153,169,251,0.8)';
                     case 'settlement':
-                      return 'rgba(255,162,0,1)';
+                      return 'rgba(255,162,0,0.8)';
                     default :
-                      return 'rgba(145,146,155,1)';
+                      return 'rgba(145,146,155,0.8)';
                   }
 
                 });
@@ -604,7 +607,7 @@ dmUi.view.graph.prototype = {
             }
 
           }
-
+        });
       } else { // data undefined
         self.showGraphEmpty(document.querySelector('._userGraph'));
       }
@@ -640,6 +643,8 @@ dmUi.view.graph.prototype = {
   _getBBox: function (selection) {
     selection.each(function (data) {
       data.bbox = this.getBBox();
+      // console.log(boxRect !== undefined);
+
     });
   }
 };

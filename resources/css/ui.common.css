@@ -263,10 +263,7 @@ h5 {
 /**
  * Graph
  */
-.link {
-  stroke: rgba(106,106,106,0.5);
-  stroke-width: 0.7px;
-}
+
 .area_user_graph .link {
   stroke-width: 0.5px;
 }
