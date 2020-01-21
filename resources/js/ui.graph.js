@@ -72,8 +72,9 @@ dmUi.view.graph.prototype = {
                   case 'order':
                     return 'rgba(79,195,247,0.8)';
                   case 'order_detail':
+                    return 'rgba(122,207,15,0.8)';
                   case 'product_detail':
-                    return 'rgba(153,169,251,0.8)';
+                    return 'rgba(178,132,255,0.8)';
                   case 'settlement':
                     return 'rgba(255,162,0,0.8)';
                   default :
@@ -109,8 +110,9 @@ dmUi.view.graph.prototype = {
                   case 'order':
                     return 'rgba(79,195,247,0.8)';
                   case 'order_detail':
+                    return 'rgba(122,207,15,0.8)';
                   case 'product_detail':
-                    return 'rgba(153,169,251,1)';
+                    return 'rgba(178,132,255,0.8)';
                   case 'settlement':
                     return 'rgba(255,162,0,0.8)';
                   default :
@@ -143,9 +145,9 @@ dmUi.view.graph.prototype = {
                 case "order":
                   return 'rgba(79,195,247,1)';
                 case "product":
-                  return 'rgba(0,220,190,1)';
+                  return 'rgba(122,207,15,1)';
                 case "cp":
-                  return 'rgba(153,169,251,1)';
+                  return 'rgba(178,132,255,1)';
                 case "settlement":
                   return 'rgba(255,162,0,1)';
                 default :
@@ -157,11 +159,11 @@ dmUi.view.graph.prototype = {
                 case "member":
                   return 'rgba(210, 168, 0, 0.5)';
                 case "order":
-                  return 'rgba(79,195,247, 0.5)';
+                  return 'rgba(0,154,211, 0.5)';
                 case "product":
-                  return 'rgba(0,220,190,0.5)';
+                  return 'rgba(13,177,0,0.5)';
                 case "cp":
-                  return 'rgba(153,169,251,0.5)';
+                  return 'rgba(116,112,249,0.5)';
                 case "settlement":
                   return 'rgba(211, 134, 0, 0.5)';
                 default :
@@ -189,7 +191,21 @@ dmUi.view.graph.prototype = {
               if(d.sum !== undefined) {
                 return d.id;
               } else {
-                return d.type;
+                var textType = d.type;
+                switch (textType) {
+                  case "member":
+                    return '회원';
+                  case "order":
+                    return '주문';
+                  case "product":
+                    return '상품';
+                  case "cp":
+                    return '판매자';
+                  case "settlement":
+                    return '정산';
+                  default :
+                    return textType;
+                }
               }
             }).attr("x", 0).attr("dx", 0).attr("dy", 5).attr('text-anchor', 'middle');
 
@@ -490,8 +506,9 @@ dmUi.view.graph.prototype = {
                     case 'order':
                       return 'rgba(79,195,247,0.8)';
                     case 'order_detail':
+                      return 'rgba(122,207,15,0.8)';
                     case 'product_detail':
-                      return 'rgba(153,169,251,1)';
+                      return 'rgba(178,132,255,0.8)';
                     case 'settlement':
                       return 'rgba(255,162,0,0.8)';
                     default :
@@ -529,8 +546,9 @@ dmUi.view.graph.prototype = {
                     case 'order':
                       return 'rgba(79,195,247,1)';
                     case 'order_detail':
+                      return 'rgba(122,207,15,1)';
                     case 'product_detail':
-                      return 'rgba(153,169,251,1)';
+                      return 'rgba(178,132,255,1)';
                     case 'settlement':
                       return 'rgba(255,162,0,1)';
                     default :
@@ -551,8 +569,9 @@ dmUi.view.graph.prototype = {
                   case 'order':
                     return 'rgba(79,195,247,0.8)';
                   case 'order_detail':
+                    return 'rgba(122,207,15,0.8)';
                   case 'product_detail':
-                    return 'rgba(153,169,251,1)';
+                    return 'rgba(178,132,255,0.8)';
                   case 'settlement':
                     return 'rgba(255,162,0,0.8)';
                   default :
@@ -570,8 +589,9 @@ dmUi.view.graph.prototype = {
                     case 'order':
                       return 'rgba(79,195,247,0.8)';
                     case 'order_detail':
+                      return 'rgba(122,207,15,0.8)';
                     case 'product_detail':
-                      return 'rgba(153,169,251,1)';
+                      return 'rgba(178,132,255,0.8)';
                     case 'settlement':
                       return 'rgba(255,162,0,0.8)';
                     default :

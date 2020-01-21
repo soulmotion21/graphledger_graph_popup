@@ -125,6 +125,7 @@ h5 {
   left:20px;
   width: 150px;
   height: 100px;
+  background: rgba(255,255,255,0.8);
 }
 .area_contents.area_user_graph .box_legend ul li {
   position: relative;
@@ -144,7 +145,7 @@ h5 {
   background:rgb(79, 195, 247);
 }
 .area_contents.area_user_graph .box_legend ul li:nth-child(2):before {
-  background:rgba(134,134,255,1);
+  background:rgba(122,207,15,1);
 }
 .area_contents.area_user_graph .box_legend ul li:nth-child(3):before {
   background:rgba(255,162,0,1);
@@ -161,6 +162,7 @@ h5 {
   position: absolute;
   top:12px;
   left: 230px;
+  background: rgba(255,255,255,0.8);
 }
 .box_legend_dot ul li {
   float: left;
@@ -185,10 +187,10 @@ h5 {
   background: rgba(79,195,247,1);
 }
 .box_legend_dot ul li:nth-child(3) span{
-  background: rgba(0,220,190,1);
+  background: rgba(122,207,15,1);
 }
 .box_legend_dot ul li:nth-child(4) span{
-  background: rgba(153,169,251,1);
+  background: rgba(178,132,255,1);
 }
 .box_legend_dot ul li:nth-child(5) span{
   background: rgba(255,162,0,1);
