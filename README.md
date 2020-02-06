@@ -1,10 +1,6 @@
 # graphledger_graph_popup
 빅데이터 거래소 블록체인 주문 그래프
 
-# Simple list interface
-
-> 빅데이터 거래소 블록체인 주문 그래프
-
 [Show Demo](http://sungkyu.me/gbc/graph/views_html/graph_user.html)
 
 ## Preview
