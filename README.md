@@ -8,7 +8,7 @@
 [Show Demo](http://sungkyu.me/gbc/graph/views_html/graph_user.html)
 
 ## Preview
-![project20](./resources/img/project.png)
+![project](./resources/img/project.png)
 
 ## Build Setup
 
