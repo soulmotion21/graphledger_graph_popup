@@ -71,12 +71,8 @@
 <script>
 
   //API
-  // var url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/memberorder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","M_1000"]';
-  // var url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
-  // var url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201912","USRCNFRM_00000001093"]';
-  // var url1 = 'http://218.38.52.18:4000/channels/channel0/chaincodes/cc_dmp/graph/cpsettlement?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["201911","CP_1000"]';
-  // var url1 = 'http://graphbc9.cafe24.com:4000/channels/channel0/chaincodes/cc_dmp/graph/cporder?peer=peer0.org1.kofpi.or.kr&fcn=queryAll&args=["202001","USRCNFRM_00000001093"]';
-  var url1 = '../resources/json/debug.json';
+  // var url1 = '../resources/json/debug.json';
+  var url1 = '../resources/json/data_live.json';
 
   document.addEventListener("DOMContentLoaded", function () {
     var userAgent = window.navigator.userAgent;
@@ -123,7 +119,7 @@
 
           if (xhr.status === 200 || xhr.status === 201) {
             var data = JSON.parse(xhr.responseText);
-            sToken = data.token;
+            // sToken = data.token;
             getData();
           }
         }
@@ -134,6 +130,7 @@
 
         //그래프 데이터 API
         var url = dataUrl;
+        sToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODEwMDAwODYsInVzZXJuYW1lIjoidXNlckBvcmcxIiwib3JnTmFtZSI6Ik9yZzEiLCJpYXQiOjE1ODA5NjQwODZ9.xwgJkU2i_itTcrn2yh30ew-1u3Sr35HeK2FMKBK9RWg';
 
         xhr.open('GET', url);
         xhr.setRequestHeader("Authorization", "Bearer " + sToken);
