@@ -9,19 +9,21 @@ dmUi.view.graph.prototype = {
    * @param data : response data
    */
   drawGraph: function (data, userAgent) {
-    var self = this;
-    var force, svg, container, link, linkMarker, nodeGroup, node, icons,
-      nodeLabel, textBackground, linkTextGroup, edgeLabels  = null;
-    var linkedByIndex = {};
-    var oData = data;
-    var sUserAgent = userAgent;
-    var isIE = sUserAgent.indexOf('Trident');
 
-    if (document.querySelector('._userGraph')) {
-      var width = document.querySelector('.section_contents').clientWidth / 1.5;
-      var height = 400;
+    try {
+      var self = this;
+      var force, svg, container, link, linkMarker, nodeGroup, node, icons,
+        nodeLabel, textBackground, linkTextGroup, edgeLabels  = null;
+      var linkedByIndex = {};
+      var oData = data;
+      var sUserAgent = userAgent;
+      var isIE = sUserAgent.indexOf('Trident');
 
-      if (oData !== undefined) {
+      if (document.querySelector('._userGraph')) {
+        var width = document.querySelector('.section_contents').clientWidth / 1.5;
+        var height = 400;
+
+        if (oData !== undefined) {
           d3.select("svg").remove();
           if (oData.length === 0 || oData.nodes.length === 0 && oData.links.length === 0) {
             self.showGraphEmpty(document.querySelector('._userGraph'));
@@ -221,21 +223,21 @@ dmUi.view.graph.prototype = {
               }).attr('dy', function (d) {
                 return '12';
               }).text(function (node) {
-              if(node.sum !== undefined) {
-                return '정산금액 : ' + node.sum;
-              } else {
-                if(node.name !== undefined) {
-                  if(node.name.length >= 30) { // 30
-                    var sName = node.name.substr(0, 30);
-                    return sName + '...';
-                  } else {
-                    return node.name;
-                  }
+                if(node.sum !== undefined) {
+                  return '정산금액 : ' + node.sum;
                 } else {
-                  return node.id
+                  if(node.name !== undefined) {
+                    if(node.name.length >= 30) { // 30
+                      var sName = node.name.substr(0, 30);
+                      return sName + '...';
+                    } else {
+                      return node.name;
+                    }
+                  } else {
+                    return node.id
+                  }
                 }
-              }
-            }).call(self._getBBox);
+              }).call(self._getBBox);
 
             // 8. node text label background
             textBackground = nodeGroup.insert('svg:rect', 'text')
@@ -291,7 +293,7 @@ dmUi.view.graph.prototype = {
               var sSecond = sDate.substr(12,2);
 
               return sYear + '-' + sMonth + '-' + sDay + ' ' + sHour + ':' + sMin + ':' + sSecond;
-              });
+            });
 
             function dragStarted(d) {
               d3.event.sourceEvent.stopPropagation();
@@ -625,9 +627,13 @@ dmUi.view.graph.prototype = {
 
           }
 
-      } else { // data undefined
-        self.showGraphEmpty(document.querySelector('._userGraph'));
+        } else { // data undefined
+          self.showGraphEmpty(document.querySelector('._userGraph'));
+        }
       }
+
+    } catch (e) {
+      console.log(e);
     }
 
   },
