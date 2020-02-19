@@ -227,11 +227,15 @@ dmUi.view.graph.prototype = {
                   return '정산금액 : ' + node.sum;
                 } else {
                   if(node.name !== undefined) {
-                    if(node.name.length >= 30) { // 30
-                      var sName = node.name.substr(0, 30);
-                      return sName + '...';
+                    if (node.name.length > 0) {
+                      if(node.name.length >= 30) { // 30
+                        var sName = node.name.substr(0, 30);
+                        return sName + '...';
+                      } else {
+                        return node.name;
+                      }
                     } else {
-                      return node.name;
+                      return node.id
                     }
                   } else {
                     return node.id
