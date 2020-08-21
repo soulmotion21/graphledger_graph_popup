@@ -14,10 +14,6 @@
           "type": "product"
         },
         {
-          "id": "ORDER_00000000002381",
-          "type": "order"
-        },
-        {
           "id": "USRCNFRM_00000001043",
           "name": "이진수",
           "type": "member"

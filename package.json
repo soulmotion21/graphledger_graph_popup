@@ -21,5 +21,6 @@
   "bugs": {
     "url": "https://github.com/soulmotion21/graphledger_graph_popup/issues"
   },
-  "homepage": "https://github.com/soulmotion21/graphledger_graph_popup#readme"
+  "homepage": "https://github.com/soulmotion21/graphledger_graph_popup#readme",
+  "dependencies": {}
 }

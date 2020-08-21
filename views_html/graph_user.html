@@ -71,8 +71,8 @@
 <script>
 
   //API
-  var url1 = '../resources/json/debug.json';
-  // var url1 = '../resources/json/data_live.json';
+  // var url1 = '../resources/json/debug.json';
+  var url1 = '../resources/json/data_live.json';
 
   document.addEventListener("DOMContentLoaded", function () {
     var userAgent = window.navigator.userAgent;
@@ -143,6 +143,7 @@
 
             if (xhr.status === 200 || xhr.status === 201) {
               var oData = JSON.parse(xhr.responseText);
+
               renderGraph(oData.result[0]);
             } else {
               console.error(xhr.responseText);
