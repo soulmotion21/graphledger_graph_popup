@@ -56,7 +56,7 @@
 
 </div>
 
-<div class="popup_dim popup_dim_transparent _loader">
+<div class="popup_dim popup_dim_transparent _loader" style="display: none">
   <div class="box_loader">
     <div class="loader">Loading...</div>
   </div>
@@ -71,8 +71,7 @@
 <script>
 
   //API
-  // var url1 = '../resources/json/debug.json';
-  var url1 = '../resources/json/graphdata_cp_order_dummy.json';
+  var url1 = '../resources/json/data_live.json';
 
   document.addEventListener("DOMContentLoaded", function () {
     var userAgent = window.navigator.userAgent;
@@ -80,9 +79,7 @@
   });
 
   function graphInit(dataUrl, userAgent) { //2020.01.10 브라우저 체크를 위한 userAgent 추가
-
-    //토큰 받기
-    getToken();
+    getData();
 
     /**
      * renderGraph : 그래프
@@ -95,63 +92,30 @@
       return oGraphledger;
     };
 
-    function getToken() {
 
-      //토큰 API
-      var tokenUrl = 'http://218.38.52.18:4000/users';
-      var sToken = '';
-      var elLoader = document.querySelector('._loader');
-
+    function getData() {
       var xhr = new XMLHttpRequest();
-      var body = {
-        "username": "user@org1",
-        "orgName": "Org1",
-      };
 
+      //그래프 데이터 API
+      var url = dataUrl;
 
-      xhr.open('POST', tokenUrl);
-      xhr.setRequestHeader('Content-Type', 'application/json; charset=utf-8');
-      xhr.send(JSON.stringify(body));
+      xhr.open('GET', url);
+      xhr.send();
 
       xhr.onreadystatechange = function () {
-        if (xhr.readyState === 4) {
-          elLoader.style.display = 'none';
-
+        if (xhr.readyState) {
           if (xhr.status === 200 || xhr.status === 201) {
-            var data = JSON.parse(xhr.responseText);
-            // sToken = data.token;
-            getData();
+            try {
+              var oData = JSON.parse(xhr.responseText);
+              renderGraph(oData.result[0]);
+            } catch (e) {
+              console.log(e);
+            }
+          } else {
+            console.error(xhr.responseText);
           }
         }
-      };
-
-      function getData() {
-        var xhr = new XMLHttpRequest();
-
-        //그래프 데이터 API
-        var url = dataUrl;
-        sToken = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJleHAiOjE1ODEwMDAwODYsInVzZXJuYW1lIjoidXNlckBvcmcxIiwib3JnTmFtZSI6Ik9yZzEiLCJpYXQiOjE1ODA5NjQwODZ9.xwgJkU2i_itTcrn2yh30ew-1u3Sr35HeK2FMKBK9RWg';
-
-        xhr.open('GET', url);
-        xhr.setRequestHeader("Authorization", "Bearer " + sToken);
-        xhr.send();
-
-        xhr.onreadystatechange = function () {
-
-          if (xhr.readyState === 4) {
-            elLoader.style.display = 'none';
-
-            if (xhr.status === 200 || xhr.status === 201) {
-              var oData = JSON.parse(xhr.responseText);
-
-              renderGraph(oData.result[0]);
-            } else {
-              console.error(xhr.responseText);
-            }
-          }
-        };
       }
-
     }
   }
 

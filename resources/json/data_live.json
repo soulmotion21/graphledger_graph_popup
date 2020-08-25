@@ -149,6 +149,11 @@
           "type": "member"
         },
         {
+          "id": "ORDER_00000000002381",
+          "name": "김기수",
+          "type": "member"
+        },
+        {
           "id": "ORDER_00000000002521",
           "type": "order"
         },

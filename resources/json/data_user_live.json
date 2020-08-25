@@ -1,0 +1,156 @@
+{
+  "nodes": [
+    {
+      "id": "dkim",
+      "group": 1,
+      "value": 1,
+      "type": "me"
+    },
+    {
+      "id": "jpark",
+      "group": 2,
+      "value": 1,
+      "type": "user"
+    },
+    {
+      "id": "dkim_doc2",
+      "group": 3,
+      "value": 1,
+      "type": "doc"
+    },
+    {
+      "id": "dkim_doc3",
+      "group": 3,
+      "value": 1,
+      "type": "doc"
+    },
+    {
+      "id": "dkim_doc3_1",
+      "group": 3,
+      "value": 1,
+      "type": "docRev"
+    },
+    {
+      "id": "dkim_doc3_2",
+      "group": 3,
+      "value": 1,
+      "type": "docRev"
+    },
+    {
+      "id": "dkim_doc7",
+      "group": 3,
+      "value": 1,
+      "type": "doc"
+    },
+    {
+      "id": "dkim_doc8_2",
+      "group": 4,
+      "value": 1,
+      "type": "docRev"
+    },
+    {
+      "id": "dkim_doc7_1",
+      "group": 4,
+      "value": 1,
+      "type": "docRev"
+    },
+    {
+      "id": "dkim_doc8_1",
+      "group": 4,
+      "value": 1,
+      "type": "docRev"
+    }
+  ],
+  "links": [
+    {
+      "id": 1,
+      "transaction": {
+        "txAmount": "write",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim",
+      "target": "dkim_doc2"
+    },
+    {
+      "id": 2,
+      "transaction": {
+        "txAmount": "write",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim",
+      "target": "dkim_doc3"
+    },
+    {
+      "id": 3,
+      "transaction": {
+        "txAmount": "revision",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim_doc8_1",
+      "target": "dkim_doc8_2"
+    },
+    {
+      "id": 4,
+      "transaction": {
+        "txAmount": "modified",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "jpark",
+      "target": "dkim_doc8_2"
+    },
+    {
+      "id": 5,
+      "transaction": {
+        "txAmount": "revision",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim_doc7",
+      "target": "dkim_doc7_1"
+    },
+    {
+      "id": 6,
+      "transaction": {
+        "txAmount": "modified",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim",
+      "target": "dkim_doc7_1"
+    },
+    {
+      "id": 4,
+      "transaction": {
+        "txAmount": "modified",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "jpark",
+      "target": "dkim_doc3_1"
+    },
+    {
+      "id": 4,
+      "transaction": {
+        "txAmount": "modified",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "jpark",
+      "target": "dkim_doc3_2"
+    },
+    {
+      "id": 5,
+      "transaction": {
+        "txAmount": "revision",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim_doc3",
+      "target": "dkim_doc3_1"
+    },
+    {
+      "id": 5,
+      "transaction": {
+        "txAmount": "revision",
+        "date": "2019-01-29 16:50:34.304"
+      },
+      "source": "dkim_doc3",
+      "target": "dkim_doc3_2"
+    }
+  ]
+}
